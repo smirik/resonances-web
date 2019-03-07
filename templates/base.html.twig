@@ -8,10 +8,32 @@
         <script src="{{ asset('build/js/app.js') }}"></script>
     </head>
     <body>
-        <div class="container-fluid">
-            {% block body %}
-            {% endblock %}
-        </div>
+
+        {% block body %}
+
+            {% include '_nav.html.twig' %}
+
+            <div class="container-fluid">
+                {% block breadcrumb %}
+                    <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ path('homepage')}}">Home</a></li>
+                        {% block breadcrumb_inline %}
+                        {% endblock %}
+                      </ol>
+                    </nav>
+                {% endblock %}
+
+                {% block content %}
+                {% endblock %}
+
+                {% block footer %}
+                    {% include '_footer.html.twig' %}
+                {% endblock %}
+            </div>
+
+        {% endblock %}
+
         {% block javascripts %}{% endblock %}
     </body>
 </html>
