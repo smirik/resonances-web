@@ -28,14 +28,12 @@ services:
             - .:/var/www/html
             - ./var/log:/var/log/nginx
     db:
-        image: postgres:10.6
+        image: mysql
         ports:
-            - "${EXTERNAL_POSTGRES_PORT}:5432"
+            - "${DB_EXTERNAL_PORT}:3306"
         volumes:
-            - db:/var/lib/postgresql/data
+            - db:/var/lib/mysql
         environment:
-            - POSTGRES_DB
-            - POSTGRES_USER
-            - POSTGRES_PASSWORD
+            MYSQL_ROOT_PASSWORD: ${DB_USER_PASSWORD}
 volumes:
     db:

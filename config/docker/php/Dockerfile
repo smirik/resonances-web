@@ -4,14 +4,13 @@ RUN apk add --no-cache \
     git \
     icu-dev \
     libzip-dev \
-    postgresql-dev \
     zip
 
 RUN docker-php-ext-install \
     intl \
     opcache \
     pdo \
-    pdo_pgsql \
+    pdo_mysql \
     zip
 
 # Uncomment code below for enabling xDebug
