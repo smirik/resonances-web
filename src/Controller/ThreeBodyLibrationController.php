@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ThreeBodyLibration;
+use App\Entity\ProperElement;
 use App\Form\ThreeBodyLibrationType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,11 +23,61 @@ class ThreeBodyLibrationController extends AbstractController
         $repository = $threeBodyLibrations = $this->getDoctrine()->getRepository(ThreeBodyLibration::class);
 
         $threeBodyLibrations = $repository->find100();
-        $stats = $repository->getResonancesStats();
+        $stats = $repository->getLibrationsStats();
 
         return $this->render('three_body_libration/index.html.twig', [
             'three_body_librations' => $threeBodyLibrations,
             'stats' => $stats,
+        ]);
+    }
+
+    /**
+     * @Route("/charts", name="three_body_libration_charts", methods={"GET"})
+     */
+    public function charts(): Response
+    {
+        $repository = $threeBodyLibrations = $this->getDoctrine()->getRepository(ThreeBodyLibration::class);
+
+        $librations = $repository->getLibrations(2.5, 2.55);
+
+        $resonances = [];
+        $properElementsNumbers = [];
+        foreach ($librations as $libration) {
+            $s = $libration->resonanceToString();
+            if (!isset($resonances[$s])) {
+                $resonances[$s] = [];
+            }
+            $resonances[$s][] = $libration->getNumber();
+            $properElementsNumbers[] = $libration->getNumber();
+        }
+        $properElementsNumbers = array_unique($properElementsNumbers);
+
+        $properElementsObjects = $this->getDoctrine()->getRepository(ProperElement::class)
+            ->findBy(['number' => $properElementsNumbers]);
+
+        $properElements = [];
+        foreach ($properElementsObjects as $properElementObject) {
+            $properElements[$properElementObject->getNumber()] = $properElementObject;
+        }
+
+        $ae = [];
+        foreach ($resonances as $key => $asteroidsInResonance) {
+            $arr = [];
+            foreach ($asteroidsInResonance as $asteroidNumber) {
+                if (isset($properElements[$asteroidNumber])) {
+                    $arr[] = [$properElements[$asteroidNumber]->getSemiAxis(), $properElements[$asteroidNumber]->getEccentricity()];
+                }
+            }
+            $a = rand(0, 255);
+            $b = rand(0, 255);
+            $c = rand(0, 255);
+            $ae[] = ['name' => $key, 'color' => 'rgba('.$a.', '.$b.', '.$c.', .5)', 'data' => $arr];
+        }
+
+        return $this->render('three_body_libration/charts.html.twig', [
+            'resonances' => $resonances,
+            'properElements' => $properElements,
+            'ae' => json_encode($ae, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE),
         ]);
     }
 

@@ -12,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ThreeBodyLibration
 {
+
+    use ResonanceString;
+
     /**
      * @var int
      *
