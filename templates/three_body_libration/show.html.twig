@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ThreeBodyLibration{% endblock %}
+
+{% block body %}
+    <h1>ThreeBodyLibration</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ three_body_libration.id }}</td>
+            </tr>
+            <tr>
+                <th>Number</th>
+                <td>{{ three_body_libration.number }}</td>
+            </tr>
+            <tr>
+                <th>ProperSemiaxis</th>
+                <td>{{ three_body_libration.properSemiaxis }}</td>
+            </tr>
+            <tr>
+                <th>Problem</th>
+                <td>{{ three_body_libration.problem }}</td>
+            </tr>
+            <tr>
+                <th>Pure</th>
+                <td>{{ three_body_libration.pure }}</td>
+            </tr>
+            <tr>
+                <th>Planet1</th>
+                <td>{{ three_body_libration.planet1 }}</td>
+            </tr>
+            <tr>
+                <th>Planet2</th>
+                <td>{{ three_body_libration.planet2 }}</td>
+            </tr>
+            <tr>
+                <th>M1</th>
+                <td>{{ three_body_libration.m1 }}</td>
+            </tr>
+            <tr>
+                <th>M2</th>
+                <td>{{ three_body_libration.m2 }}</td>
+            </tr>
+            <tr>
+                <th>M</th>
+                <td>{{ three_body_libration.m }}</td>
+            </tr>
+            <tr>
+                <th>P1</th>
+                <td>{{ three_body_libration.p1 }}</td>
+            </tr>
+            <tr>
+                <th>P2</th>
+                <td>{{ three_body_libration.p2 }}</td>
+            </tr>
+            <tr>
+                <th>P</th>
+                <td>{{ three_body_libration.p }}</td>
+            </tr>
+            <tr>
+                <th>ResonantSemiaxis</th>
+                <td>{{ three_body_libration.resonantSemiaxis }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('three_body_libration_index') }}">back to list</a>
+
+    <a href="{{ path('three_body_libration_edit', {'id': three_body_libration.id}) }}">edit</a>
+
+    {{ include('three_body_libration/_delete_form.html.twig') }}
+{% endblock %}
