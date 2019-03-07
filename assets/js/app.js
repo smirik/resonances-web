@@ -24,5 +24,5 @@ global.Highcharts = Highcharts;
 require('highcharts/modules/exporting')(Highcharts);
 require('highcharts/highcharts-3d')(Highcharts);
 
-// require('../js/charts.js');
-require('../js/charts3d.js');
+require('../js/charts.js');
+// require('../js/charts3d.js');

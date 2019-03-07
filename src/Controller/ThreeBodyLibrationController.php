@@ -38,7 +38,9 @@ class ThreeBodyLibrationController extends AbstractController
     {
         $repository = $threeBodyLibrations = $this->getDoctrine()->getRepository(ThreeBodyLibration::class);
 
-        $librations = $repository->getLibrations(2.5, 2.55);
+        $aMin = 2.5;
+        $aMax = 2.6;
+        $librations = $repository->getLibrations($aMin, $aMax);
 
         $resonances = [];
         $properElementsNumbers = [];
@@ -61,6 +63,24 @@ class ThreeBodyLibrationController extends AbstractController
         }
 
         $ae = [];
+
+        $backgroundProperElements = $this->getDoctrine()->getRepository(ProperElement::class)
+            ->createQueryBuilder('p')
+            ->where('p.semiAxis >= :amin')
+            ->andWhere('p.semiAxis <= :amax')
+            ->setParameter('amin', $aMin)
+            ->setParameter('amax', $aMax)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        $arr = [];
+        foreach ($backgroundProperElements as $elem) {
+            // $arr[] = ['x' => $elem->getSemiAxis(), 'y' => $elem->getEccentricity()];
+            $arr[] = [$elem->getSemiAxis(), $elem->getEccentricity()];
+        }
+        $ae[] = ['name' => 'background', 'color' => 'rgba(230,230,230,.5)', 'data' => $arr];
+
         foreach ($resonances as $key => $asteroidsInResonance) {
             $arr = [];
             foreach ($asteroidsInResonance as $asteroidNumber) {
@@ -88,7 +108,9 @@ class ThreeBodyLibrationController extends AbstractController
     {
         $repository = $threeBodyLibrations = $this->getDoctrine()->getRepository(ThreeBodyLibration::class);
 
-        $librations = $repository->getLibrations(2.5, 2.6);
+        $aMin = 2.5;
+        $aMax = 2.6;
+        $librations = $repository->getLibrations($aMin, $aMax);
 
         $resonances = [];
         $properElementsNumbers = [];
@@ -111,6 +133,7 @@ class ThreeBodyLibrationController extends AbstractController
         }
 
         $aei = [];
+
         foreach ($resonances as $key => $asteroidsInResonance) {
             $arr = [];
             foreach ($asteroidsInResonance as $asteroidNumber) {
