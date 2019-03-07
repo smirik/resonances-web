@@ -28,12 +28,13 @@ services:
             - .:/var/www/html
             - ./var/log:/var/log/nginx
     db:
-        image: mysql
+        image: mysql:5.5
         ports:
             - "${DB_EXTERNAL_PORT}:3306"
         volumes:
             - db:/var/lib/mysql
         environment:
             MYSQL_ROOT_PASSWORD: ${DB_USER_PASSWORD}
+            MYSQL_DATABASE: ${DB_NAME}
 volumes:
     db:

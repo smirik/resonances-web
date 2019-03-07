@@ -21,7 +21,10 @@ class ThreeBodyLibrationController extends AbstractController
     {
         $threeBodyLibrations = $this->getDoctrine()
             ->getRepository(ThreeBodyLibration::class)
-            ->findAll();
+            ->createQueryBuilder('l')
+            ->setMaxResults(100)
+            ->getQuery()
+            ->execute();
 
         return $this->render('three_body_libration/index.html.twig', [
             'three_body_librations' => $threeBodyLibrations,
