@@ -18,10 +18,9 @@ const $ = require('jquery');
 // the bootstrap module doesn't export/return anything
 require('bootstrap');
 
-// or you can include specific pieces
-// require('bootstrap/js/dist/tooltip');
-// require('bootstrap/js/dist/popover');
+global.$ = global.jQuery = $;
+var Highcharts = require('highcharts');
+global.Highcharts = Highcharts;
+require('highcharts/modules/exporting')(Highcharts);
 
-$(document).ready(function() {
-    $('[data-toggle="popover"]').popover();
-});
+require('../js/charts.js');

@@ -19,13 +19,14 @@ class ThreeBodyLibrationController extends AbstractController
      */
     public function index(): Response
     {
-        $threeBodyLibrations = $this->getDoctrine()
-            ->getRepository(ThreeBodyLibration::class)
-            ->find100()
-        ;
+        $repository = $threeBodyLibrations = $this->getDoctrine()->getRepository(ThreeBodyLibration::class);
+
+        $threeBodyLibrations = $repository->find100();
+        $stats = $repository->getResonancesStats();
 
         return $this->render('three_body_libration/index.html.twig', [
             'three_body_librations' => $threeBodyLibrations,
+            'stats' => $stats,
         ]);
     }
 
