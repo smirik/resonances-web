@@ -82,6 +82,56 @@ class ThreeBodyLibrationController extends AbstractController
     }
 
     /**
+     * @Route("/charts3d", name="three_body_libration_charts3d", methods={"GET"})
+     */
+    public function charts3d(): Response
+    {
+        $repository = $threeBodyLibrations = $this->getDoctrine()->getRepository(ThreeBodyLibration::class);
+
+        $librations = $repository->getLibrations(2.5, 2.6);
+
+        $resonances = [];
+        $properElementsNumbers = [];
+        foreach ($librations as $libration) {
+            $s = $libration->resonanceToString();
+            if (!isset($resonances[$s])) {
+                $resonances[$s] = [];
+            }
+            $resonances[$s][] = $libration->getNumber();
+            $properElementsNumbers[] = $libration->getNumber();
+        }
+        $properElementsNumbers = array_unique($properElementsNumbers);
+
+        $properElementsObjects = $this->getDoctrine()->getRepository(ProperElement::class)
+            ->findBy(['number' => $properElementsNumbers]);
+
+        $properElements = [];
+        foreach ($properElementsObjects as $properElementObject) {
+            $properElements[$properElementObject->getNumber()] = $properElementObject;
+        }
+
+        $aei = [];
+        foreach ($resonances as $key => $asteroidsInResonance) {
+            $arr = [];
+            foreach ($asteroidsInResonance as $asteroidNumber) {
+                if (isset($properElements[$asteroidNumber])) {
+                    $arr[] = [$properElements[$asteroidNumber]->getSemiAxis(), $properElements[$asteroidNumber]->getEccentricity(), $properElements[$asteroidNumber]->getSini()];
+                }
+            }
+            $a = rand(0, 200);
+            $b = rand(0, 200);
+            $c = rand(0, 200);
+            $aei[] = ['name' => $key, 'color' => 'rgba('.$a.', '.$b.', '.$c.', .5)', 'data' => $arr];
+        }
+
+        return $this->render('three_body_libration/charts3d.html.twig', [
+            'resonances' => $resonances,
+            'properElements' => $properElements,
+            'aei' => json_encode($aei),
+        ]);
+    }
+
+    /**
      * @Route("/new", name="three_body_libration_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
