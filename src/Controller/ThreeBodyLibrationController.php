@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-use App\Form\ResonanceFinderType;
+use App\Form\Type\ResonanceFinderType;
 
 use App\Resonance\Finder;
 

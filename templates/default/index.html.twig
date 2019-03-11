@@ -3,5 +3,18 @@
 {% block title %}Librations{% endblock %}
 
 {% block content %}
-<h1>Hello</h1>
+    
+    <h1>Hello</h1>
+
+    <div class="row">
+        <div class="col-8">
+        </div>
+        <div class="col">
+            <h4>Draw a chart</h4>
+            <hr>
+            {{ form_start(form, {'action': path('three_body_libration_find'), 'method': 'GET'}) }}
+            {{ form(form) }}
+        </div>
+    </div>
+
 {% endblock %}
