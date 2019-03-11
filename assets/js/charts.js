@@ -8,7 +8,7 @@ $(document).ready(function() {
             text: 'Resonances groups'
         },
         subtitle: {
-            text: 'Source: Heinz  2003'
+            text: 'Source: Smirnov, Markov, Popova (2017)'
         },
         xAxis: {
             title: {
@@ -54,7 +54,7 @@ $(document).ready(function() {
                 },
                 tooltip: {
                     headerFormat: '<b>{series.name}</b><br>',
-                    pointFormat: '{point.x} cm, {point.y} kg'
+                    pointFormat: '{point.x} AU, {point.y}'
                 }
             }
         },

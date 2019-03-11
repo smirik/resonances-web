@@ -10,6 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use App\Form\ResonanceFinderType;
+
+use App\Resonance\Finder;
+
 /**
  * @Route("/librations/threebody")
  */
@@ -32,6 +36,31 @@ class ThreeBodyLibrationController extends AbstractController
     }
 
     /**
+     * @Route("/find", name="three_body_libration_find", methods={"GET","POST"})
+     */
+    public function find(Request $request, Finder $finder): Response
+    {
+        $form = $this->createForm(ResonanceFinderType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $ae = $finder->getResonantAsteroids($data);
+
+            return $this->render('three_body_libration/find.html.twig', [
+                'form' => $form->createView(),
+                'ae' => json_encode($ae),
+            ]);
+
+        }
+    
+        return $this->render('three_body_libration/find.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/charts", name="three_body_libration_charts", methods={"GET"})
      */
     public function charts(): Response
@@ -39,8 +68,8 @@ class ThreeBodyLibrationController extends AbstractController
         $repository = $threeBodyLibrations = $this->getDoctrine()->getRepository(ThreeBodyLibration::class);
 
         $aMin = 2.5;
-        $aMax = 2.6;
-        $librations = $repository->getLibrations($aMin, $aMax);
+        $aMax = 2.55;
+        $librations = $repository->getLibrations(['amin' => $aMin, 'amax' => $aMax, 'planet1' => 'all', 'planet2' => 'all']);
 
         $resonances = [];
         $properElementsNumbers = [];

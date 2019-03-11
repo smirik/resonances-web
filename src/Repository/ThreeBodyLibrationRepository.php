@@ -49,15 +49,30 @@ class ThreeBodyLibrationRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function getLibrations(float $aMin, float $aMax)
+    public function getLibrations(array $data)
     {
         $query = $this->createQueryBuilder('l')
             ->where('l.properSemiaxis >= :amin')
             ->andWhere('l.properSemiaxis <= :amax')
-            ->setParameter('amin', $aMin)
-            ->setParameter('amax', $aMax)
-            ->getQuery()
+            ->setParameter('amin', $data['amin'])
+            ->setParameter('amax', $data['amax'])
         ;
+
+        if ($data['planet1'] != 'all') {
+            $query = $query
+                ->andWhere('l.planet1 = :planet1')
+                ->setParameter('planet1', $data['planet1'])
+            ;
+        }
+
+        if ($data['planet2'] != 'all') {
+            $query = $query
+                ->andWhere('l.planet2 = :planet2')
+                ->setParameter('planet2', $data['planet2'])
+            ;
+        }
+
+        $query = $query->getQuery();
 
         return $query->getResult();
     }

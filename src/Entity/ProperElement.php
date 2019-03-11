@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ProperElements
  *
  * @ORM\Table(name="proper_elements")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ProperElementRepository")
  */
 class ProperElement
 {
