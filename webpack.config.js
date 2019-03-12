@@ -14,8 +14,10 @@ Encore
         resolveUrlLoader: false
     })
     .autoProvidejQuery()
+    .enableSingleRuntimeChunk()
     // uncomment to define the assets of the project
     .addEntry('js/app', './assets/js/app.js')
+    .addEntry('threebodychart', './assets/js/charts.js')
     // .addStyleEntry('css/app', './assets/css/app.scss')
 
     // uncomment for legacy applications that require $/jQuery as a global variable

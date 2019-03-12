@@ -2,12 +2,17 @@
 
 {% block title %}ThreeBodyLibration index{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('threebodychart') }}
+{% endblock %}
+
 {% block content %}
 
     <h1>Finder</h1>
 
     <div class="row">
-        <div class="col-8">
+        <div class="col-7">
             <div id="container" style="height: 500px"></div>
         </div>
         <div class="col">

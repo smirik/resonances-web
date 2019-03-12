@@ -1,3 +1,8 @@
+var Highcharts = require('highcharts');
+global.Highcharts = Highcharts;
+require('highcharts/modules/exporting')(Highcharts);
+require('highcharts/highcharts-3d')(Highcharts);
+
 $(document).ready(function() {
     Highcharts.chart('container', {
         chart: {
