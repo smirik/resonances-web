@@ -2,59 +2,55 @@
 
 {% block title %}ThreeBodyLibration index{% endblock %}
 
-{% block body %}
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('homepage') }}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page"> {{ planet1 }}&mdash;{{ planet2 }}</li>
+    </ol>
+    </nav>
+{% endblock %}
 
-    <h1>ThreeBodyLibration index</h1>
+{% block content %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Number</th>
-                <th>ProperSemiaxis</th>
-                <th>Problem</th>
-                <th>Pure</th>
-                <th>Planet1</th>
-                <th>Planet2</th>
-                <th>M1</th>
-                <th>M2</th>
-                <th>M</th>
-                <th>P1</th>
-                <th>P2</th>
-                <th>P</th>
-                <th>ResonantSemiaxis</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for three_body_libration in three_body_librations %}
-            <tr>
-                <td>{{ three_body_libration.id }}</td>
-                <td>{{ three_body_libration.number }}</td>
-                <td>{{ three_body_libration.properSemiaxis }}</td>
-                <td>{{ three_body_libration.problem }}</td>
-                <td>{{ three_body_libration.pure }}</td>
-                <td>{{ three_body_libration.planet1 }}</td>
-                <td>{{ three_body_libration.planet2 }}</td>
-                <td>{{ three_body_libration.m1 }}</td>
-                <td>{{ three_body_libration.m2 }}</td>
-                <td>{{ three_body_libration.m }}</td>
-                <td>{{ three_body_libration.p1 }}</td>
-                <td>{{ three_body_libration.p2 }}</td>
-                <td>{{ three_body_libration.p }}</td>
-                <td>{{ three_body_libration.resonantSemiaxis }}</td>
-                <td>
-                    <a href="{{ path('three_body_libration_show', {'id': three_body_libration.id}) }}">show</a>
-                    <a href="{{ path('three_body_libration_edit', {'id': three_body_libration.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="15">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <h1>List of resonances with {{ planet1 }} and {{ planet2 }}</h1>
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Resonance</th>
+                        <th class="text-right">m1</th>
+                        <th class="text-right">m2</th>
+                        <th class="text-right">m</th>
+                        <th class="text-right"># of asteroids</th>
+                        <th class="text-right">Average a</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for resonance in resonances %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            <a href="{{ path('three_body_libration_show', {'planet1': planet1, 'planet2': planet2, 'm1': resonance.m1, 'm2': resonance.m2, 'm': resonance.m}) }}">
+                                {{ "%d%s%+d%s%+d"|format(resonance.m1, planet1|first, resonance.m2, planet2|first, resonance.m) }}
+                            </a>
+                        </td>
+                        <td class="text-right">{{ resonance.m1 }}</td>
+                        <td class="text-right">{{ resonance.m2 }}</td>
+                        <td class="text-right">{{ resonance.m }}</td>
+                        <td class="text-right">{{ resonance.num }}</td>
+                        <td class="text-right">{{ "%10.5f"|format(resonance.avg_semiaxis) }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    <a href="{{ path('three_body_libration_new') }}">Create new</a>
 {% endblock %}

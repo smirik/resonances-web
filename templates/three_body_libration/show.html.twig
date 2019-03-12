@@ -1,74 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ThreeBodyLibration{% endblock %}
+{% block title %}ThreeBodyLibration index{% endblock %}
 
-{% block body %}
-    <h1>ThreeBodyLibration</h1>
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('homepage') }}">Home</a></li>
+        <li class="breadcrumb-item">
+            <a href="{{ path('three_body_libration_list', {'planet1': planet1, 'planet2': planet2}) }}">
+                {{ planet1 }}&mdash;{{ planet2 }}
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">{{ "%d%s%+d%s%+d"|format(m1, planet1|first, m2, planet2|first, m) }}</li>
+    </ol>
+    </nav>
+{% endblock %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ three_body_libration.id }}</td>
-            </tr>
-            <tr>
-                <th>Number</th>
-                <td>{{ three_body_libration.number }}</td>
-            </tr>
-            <tr>
-                <th>ProperSemiaxis</th>
-                <td>{{ three_body_libration.properSemiaxis }}</td>
-            </tr>
-            <tr>
-                <th>Problem</th>
-                <td>{{ three_body_libration.problem }}</td>
-            </tr>
-            <tr>
-                <th>Pure</th>
-                <td>{{ three_body_libration.pure }}</td>
-            </tr>
-            <tr>
-                <th>Planet1</th>
-                <td>{{ three_body_libration.planet1 }}</td>
-            </tr>
-            <tr>
-                <th>Planet2</th>
-                <td>{{ three_body_libration.planet2 }}</td>
-            </tr>
-            <tr>
-                <th>M1</th>
-                <td>{{ three_body_libration.m1 }}</td>
-            </tr>
-            <tr>
-                <th>M2</th>
-                <td>{{ three_body_libration.m2 }}</td>
-            </tr>
-            <tr>
-                <th>M</th>
-                <td>{{ three_body_libration.m }}</td>
-            </tr>
-            <tr>
-                <th>P1</th>
-                <td>{{ three_body_libration.p1 }}</td>
-            </tr>
-            <tr>
-                <th>P2</th>
-                <td>{{ three_body_libration.p2 }}</td>
-            </tr>
-            <tr>
-                <th>P</th>
-                <td>{{ three_body_libration.p }}</td>
-            </tr>
-            <tr>
-                <th>ResonantSemiaxis</th>
-                <td>{{ three_body_libration.resonantSemiaxis }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% block content %}
 
-    <a href="{{ path('three_body_libration_index') }}">back to list</a>
+    <h1>List of the asteroids trapped in 
+    {{ "%d%s%+d%s%+d"|format(m1, planet1|first, m2, planet2|first, m) }}
+    resonance
+    </h1>
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Number</th>
+                        <th class="text-right">a</th>
+                        <th class="text-right">e</th>
+                        <th class="text-right">Pure</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for resonance in resonances %}
+                    <tr>
+                        <td>{{ loop.index }}
+                        <td>{{ resonance.number }}</td>
+                        <td class="text-right">{{ "%.8f"|format(resonance.properSemiaxis) }}</td>
+                        <td class="text-right">{{ "%.8f"|format(resonance.properSemiaxis) }}</td>
+                        <td class="text-right">{{ resonance.pure }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    <a href="{{ path('three_body_libration_edit', {'id': three_body_libration.id}) }}">edit</a>
-
-    {{ include('three_body_libration/_delete_form.html.twig') }}
 {% endblock %}

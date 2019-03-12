@@ -36,6 +36,73 @@ class ThreeBodyLibrationController extends AbstractController
     }
 
     /**
+     * @Route("/{planet1}/{planet2}", name="three_body_libration_list", methods={"GET"})
+     */
+    public function list($planet1, $planet2): Response
+    {
+        $repository = $this->getDoctrine()->getRepository(ThreeBodyLibration::class);
+
+        $query = $repository->createQueryBuilder('l')
+            ->select(['l.planet1', 'l.planet2', 'l.m1', 'l.m2', 'l.m', 'COUNT(l.number) AS num', 'AVG(l.properSemiaxis) AS avg_semiaxis'])
+            ->groupBy('l.planet1')
+            ->AddGroupBy('l.planet2')
+            ->AddGroupBy('l.m1')
+            ->AddGroupBy('l.m2')
+            ->AddGroupBy('l.m')
+            ->having('l.planet1 = :planet1')
+            ->andHaving('l.planet2 = :planet2')
+            ->setParameter('planet1', $planet1)
+            ->setParameter('planet2', $planet2)
+            ->orderBy('l.m1', 'ASC')
+            ->addOrderBy('l.m2', 'ASC')
+            ->addOrderBy('l.m', 'ASC')
+            ->getQuery()
+        ;
+
+        $resonances = $query->execute();
+        
+        return $this->render('three_body_libration/list.html.twig', [
+            'resonances' => $resonances,
+            'planet1' => $planet1,
+            'planet2' => $planet2,
+        ]);
+    }
+
+    /**
+     * @Route("/{planet1}/{planet2}/{m1}/{m2}/{m}", name="three_body_libration_show", methods={"GET"})
+     */
+    public function show($planet1, $planet2, int $m1, int $m2, int $m): Response
+    {
+        $repository = $this->getDoctrine()->getRepository(ThreeBodyLibration::class);
+        
+        $query = $repository->createQueryBuilder('l')
+            ->where('l.planet1 = :planet1')
+            ->andWhere('l.planet2 = :planet2')
+            ->andWhere('l.m1 = :m1')
+            ->andWhere('l.m2 = :m2')
+            ->andWhere('l.m = :m')
+            ->setParameter('planet1', $planet1)
+            ->setParameter('planet2', $planet2)
+            ->setParameter('m1', $m1)
+            ->setParameter('m2', $m2)
+            ->setParameter('m', $m)
+            ->orderBy('l.number', 'ASC')
+            ->getQuery()
+        ;
+
+        $resonances = $query->execute();
+        
+        return $this->render('three_body_libration/show.html.twig', [
+            'resonances' => $resonances,
+            'planet1' => $planet1,
+            'planet2' => $planet2,
+            'm1' => $m1,
+            'm2' => $m2,
+            'm' => $m,
+        ]);
+    }
+
+    /**
      * @Route("/find", name="three_body_libration_find", methods={"GET","POST"})
      */
     public function find(Request $request, Finder $finder): Response
@@ -183,72 +250,4 @@ class ThreeBodyLibrationController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="three_body_libration_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $threeBodyLibration = new ThreeBodyLibration();
-        $form = $this->createForm(ThreeBodyLibrationType::class, $threeBodyLibration);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($threeBodyLibration);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('three_body_libration_index');
-        }
-
-        return $this->render('three_body_libration/new.html.twig', [
-            'three_body_libration' => $threeBodyLibration,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="three_body_libration_show", methods={"GET"})
-     */
-    public function show(ThreeBodyLibration $threeBodyLibration): Response
-    {
-        return $this->render('three_body_libration/show.html.twig', [
-            'three_body_libration' => $threeBodyLibration,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="three_body_libration_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, ThreeBodyLibration $threeBodyLibration): Response
-    {
-        $form = $this->createForm(ThreeBodyLibrationType::class, $threeBodyLibration);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('three_body_libration_index', [
-                'id' => $threeBodyLibration->getId(),
-            ]);
-        }
-
-        return $this->render('three_body_libration/edit.html.twig', [
-            'three_body_libration' => $threeBodyLibration,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="three_body_libration_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, ThreeBodyLibration $threeBodyLibration): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$threeBodyLibration->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($threeBodyLibration);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('three_body_libration_index');
-    }
 }

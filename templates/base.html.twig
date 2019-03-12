@@ -13,19 +13,10 @@
 
             {% include '_nav.html.twig' %}
 
-            <div class="container-fluid">
-                {% if false %}
-                {% block breadcrumb %}
-                    <nav aria-label="breadcrumb">
-                      <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ path('homepage')}}">Home</a></li>
-                        {% block breadcrumb_inline %}
-                        {% endblock %}
-                      </ol>
-                    </nav>
-                {% endblock %}
-                {% endif %}
+            <div class="container">
                 <hr>
+                {% block breadcrumb %}
+                {% endblock %}
 
                 {% block content %}
                 {% endblock %}
