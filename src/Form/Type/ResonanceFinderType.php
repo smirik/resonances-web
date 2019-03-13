@@ -61,7 +61,7 @@ class ResonanceFinderType extends AbstractType
                 'required' => false,
                 'data' => false,
             ])
-            ->add('save', SubmitType::class, ['label' => 'Find'])
+            ->add('save', SubmitType::class, ['label' => 'Plot'])
         ;
     }
 
