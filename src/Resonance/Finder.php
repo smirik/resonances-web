@@ -42,15 +42,30 @@ class Finder
         /**
          * Add twobody
          */
+        $twoBodyResonances = [];
         if (0 != $data['twobody']) {
-            $tmp = $this->twoBodyRepository->getLibrations($data);
-            $librations = array_merge($librations, $tmp);
+            $twoBodyResonances = $this->twoBodyRepository->getLibrations($data);
         }
         $resonances = $this->getResonancesForLibrations($librations);
         $properElements = $this->getProperElementsForLibrations($librations);
 
+        return [
+            'resonances' => $resonances,
+            'properElements' => $properElements,
+            'twoBodyResonances' => $twoBodyResonances,
+        ];
+
+    }
+
+    public function getResonantAsteroidsForChart(array $data) : array
+    {
+        $tmp = $this->getResonantAsteroids($data);
+
+        $resonances = array_merge($tmp['resonances'], $tmp['twoBodyResonances']);
+        $properElements = $tmp['properElements'];
+
         $ae = [];
-        if ($data['includeBackground']) {
+        if (isset($data['includeBackground']) && $data['includeBackground']) {
             $arr = $this->getBackgroundAsteroids($data['amin'], $data['amax']);
             $ae[] = ['name' => 'background', 'color' => 'rgba(230,230,230,.5)', 'data' => $arr];
         }

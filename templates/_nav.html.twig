@@ -6,11 +6,14 @@
     <a class="navbar-brand" href="{{ path('homepage') }}">Resonances Wiki</a>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item {% if current_route == 'three_body_libration_find' %}active{% endif %}">
-            <a class="nav-link" href="{{ path('three_body_libration_find')}}">Finder</a>
-        </li>
         <li class="nav-item {% if current_route in ['three_body_libration_index', 'three_body_libration_list', 'three_body_libration_show', 'two_body_libration_list', 'two_body_libration_show'] %}active{% endif %}">
             <a class="nav-link" href="{{ path('three_body_libration_index')}}">Resonances</a>
+        </li>
+        <li class="nav-item {% if current_route == 'three_body_libration_find' %}active{% endif %}">
+            <a class="nav-link" href="{{ path('three_body_libration_find')}}">Chart Builder</a>
+        </li>
+        <li class="nav-item {% if current_route == 'export' %}active{% endif %}">
+            <a class="nav-link" href="{{ path('export')}}">Export</a>
         </li>
     </ul>
     <form action="{{ path('asteroid_show') }}" method="GET" class="form-inline my-2 my-lg-0">
