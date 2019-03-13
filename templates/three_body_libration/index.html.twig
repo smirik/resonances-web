@@ -6,13 +6,20 @@
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ path('homepage') }}">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Librations</li>
+        <li class="breadcrumb-item active" aria-current="page">Resonances</li>
     </ol>
     </nav>
 {% endblock %}
 
 {% block content %}
 
-    {% include 'default/_threebody_resonances_list.html.twig' %}
+    <div class="row">
+        <div class="col">
+            {% include 'default/_threebody_resonances_list.html.twig' %}
+        </div>
+        <div class="col">
+            {% include 'default/_twobody_resonances_list.html.twig' %}
+        </div>
+    </div>
 
 {% endblock %}

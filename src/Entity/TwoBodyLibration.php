@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * TwoBodyLibrations
  *
  * @ORM\Table(name="two_body_librations", indexes={@ORM\Index(name="index_number4", columns={"number"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\TwoBodyLibrationRepository")
  */
 class TwoBodyLibration
 {

@@ -3,31 +3,49 @@
 namespace App\Resonance;
 
 use App\Repository\ThreeBodyLibrationRepository;
+use App\Repository\TwoBodyLibrationRepository;
 use App\Repository\ProperElementRepository;
 use App\Entity\ProperElement;
 
-class Finder 
+class Finder
 {
 
     /**
      * @var ThreeBodyLibrationRepository
      */
     private $repository;
-
-        /**
+    /**
      * @var ProperElementRepository
      */
     private $properElementRepository;
+    /**
+     * @var TwoBodyLibrationRepository
+     */
+    private $twoBodyRepository;
 
-    public function __construct(ThreeBodyLibrationRepository $repository, ProperElementRepository $properElementRepository)
+    public function __construct(ThreeBodyLibrationRepository $repository, ProperElementRepository $properElementRepository, TwoBodyLibrationRepository $twoBodyRepository)
     {
         $this->repository = $repository;
         $this->properElementRepository = $properElementRepository;
+        $this->twoBodyRepository = $twoBodyRepository;
     }
 
     public function getResonantAsteroids(array $data) : array
     {
-        $librations = $this->repository->getLibrations($data);
+        $librations = [];
+        /**
+         * Only two-body
+         */
+        if (-1 != $data['twobody']) {
+            $librations = $this->repository->getLibrations($data);
+        }
+        /**
+         * Add twobody
+         */
+        if (0 != $data['twobody']) {
+            $tmp = $this->twoBodyRepository->getLibrations($data);
+            $librations = array_merge($librations, $tmp);
+        }
         $resonances = $this->getResonancesForLibrations($librations);
         $properElements = $this->getProperElementsForLibrations($librations);
 
@@ -43,7 +61,7 @@ class Finder
         return $ae;
     }
 
-    /** 
+    /**
      * Return array of proper semimajor-axis and eccentricity
      * @return array
      */
@@ -65,7 +83,7 @@ class Finder
         return $properElements;
     }
 
-    /** 
+    /**
      * Return array of proper semimajor-axis and eccentricity
      * @return array
      */
@@ -106,16 +124,24 @@ class Finder
         $ae = [];
 
         foreach ($resonances as $key => $asteroidsInResonance) {
+            /**
+             * Set opacity 1.0 for two-body
+             */
+            $len = strlen($key);
+            $opacity = '0.2';
+            if ($len <= 6) {
+                $opacity = '1.0';
+            }
             $arr = [];
             foreach ($asteroidsInResonance as $asteroidNumber) {
                 if (isset($properElements[$asteroidNumber])) {
                     $arr[] = [$properElements[$asteroidNumber]->getSemiAxis(), $properElements[$asteroidNumber]->getEccentricity()];
                 }
             }
-            $a = rand(0, 255);
-            $b = rand(0, 255);
-            $c = rand(0, 255);
-            $ae[] = ['name' => $key, 'color' => 'rgba('.$a.', '.$b.', '.$c.', .5)', 'data' => $arr];
+            $a = rand(0, 200);
+            $b = rand(0, 200);
+            $c = rand(0, 200);
+            $ae[] = ['name' => $key, 'color' => 'rgba('.$a.', '.$b.', '.$c.', '.$opacity.')', 'data' => $arr];
         }
 
         return $ae;

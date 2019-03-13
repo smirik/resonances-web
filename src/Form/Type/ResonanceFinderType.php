@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 use App\Form\Type\PlanetChoiceType;
 
@@ -24,6 +25,15 @@ class ResonanceFinderType extends AbstractType
             ])
             ->add('planet2', PlanetChoiceType::class, [
                 'data' => 'SATURN',
+            ])
+            ->add('twobody', ChoiceType::class, [
+                'choices' => [
+                    'With Two-Body' => 1,
+                    'Without Two-Body' => 0,
+                    'Only Two-Body' => -1,
+                ],
+                'data' => 1,
+                'label' => '2-body',
             ])
             ->add('amin', NumberType::class, [
                 'label' => "Min a",
