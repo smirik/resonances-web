@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ThreeBodyLibration index{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('threebodychart') }}
+{% endblock %}
+
+{% block content %}
+
+    <h1>Finder</h1>
+
+    <div class="row">
+        <div class="col-8">
+            <div id="container" style="height: 500px"></div>
+        </div>
+        <div class="col">
+            {{ form(form) }}
+            {% if false %}
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+            {% endif %}
+        </div>
+    </div>
+
+    {% if ae is defined %}
+        <script>
+            window.series = JSON.parse('{{ ae|raw }}');
+        </script>
+    {% endif %}
+
+
+{% endblock %}

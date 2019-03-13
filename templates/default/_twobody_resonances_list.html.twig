@@ -1,0 +1,9 @@
+{% set planets = ['Mercury', 'Venus', 'Earthmoo', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'] %}
+
+<h4>Two-body resonances with planets</h4>
+
+<ul>
+{% for planet1 in planets %}
+    <li><a href="{{ path('two_body_libration_list', {'planet1': planet1}) }}">{{ planet1 }}</a></li>
+{% endfor %}
+</ul>

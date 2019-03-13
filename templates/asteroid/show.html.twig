@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Asteroid {{ id }} !{% endblock %}
+
+{% block content %}
+
+<h1>Asteroid {{ id }}</h1>
+
+<div class="row">
+    <div class="col">
+        <table class="table table-striped table-bordered table-sm">
+            <thead class="thead-dark">
+                <th>Parameter</th>
+                <th>Value</th>
+            </thead>
+
+            <tr>
+                <td>Semi-major axis</td>
+                <td>{{ properElements.semiAxis }}</td>
+            </tr>
+            <tr>
+                <td>Eccentricity</td>
+                <td>{{ properElements.eccentricity }}</td>
+            </tr>
+
+            <tr>
+                <td>Sin(i)</td>
+                <td>{{ properElements.sinI }}</td>
+            </tr>
+
+        </table>
+    </div>
+
+        <div class="col">
+        <table class="table table-striped table-bordered table-sm">
+            <thead class="thead-dark">
+                <th>#</th>
+                <th>Type</th>
+                <th>Resonance</th>
+                <th>Planet 1</th>
+                <th>Planet 2</th>
+                <th>Pure?</th>
+            </thead>
+
+            {% for libration in threeBodyLibrations %}
+                <tr>
+                    <td>{{ loop.index }} </td>
+                    <td>3-body</td>
+                    <td>{{ libration.resonanceToString }}</td>
+                    <td>{{ libration.planet1 }}</td>
+                    <td>{{ libration.planet2 }}</td>
+                    <td>{{ libration.pureToString }}</td>
+                </tr>
+            {% endfor %}
+
+            {% for libration in twoBodyLibrations %}
+                <tr>
+                    <td>{{ loop.index }} </td>
+                    <td>2-body</td>
+                    <td>{{ libration.resonanceToString }}</td>
+                    <td colspan="2">{{ libration.planet1 }}</td>
+                    <td>{{ libration.pureToString }}</td>
+                </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -152,6 +152,9 @@
             "ref": "05daf6b214e54aed4089f3480f944a67ac3a7889"
         }
     },
+    "symfony/asset": {
+        "version": "v4.2.4"
+    },
     "symfony/cache": {
         "version": "v4.2.4"
     },
@@ -212,6 +215,9 @@
             "ref": "dc3fc2e0334a4137c47cfd5a3ececc601fa61a0b"
         }
     },
+    "symfony/form": {
+        "version": "v4.2.4"
+    },
     "symfony/framework-bundle": {
         "version": "4.2",
         "recipe": {
@@ -225,6 +231,12 @@
         "version": "v4.2.4"
     },
     "symfony/http-kernel": {
+        "version": "v4.2.4"
+    },
+    "symfony/inflector": {
+        "version": "v4.2.4"
+    },
+    "symfony/intl": {
         "version": "v4.2.4"
     },
     "symfony/maker-bundle": {
@@ -257,6 +269,9 @@
     "symfony/polyfill-ctype": {
         "version": "v1.10.0"
     },
+    "symfony/polyfill-intl-icu": {
+        "version": "v1.10.0"
+    },
     "symfony/polyfill-mbstring": {
         "version": "v1.10.0"
     },
@@ -272,6 +287,9 @@
     "symfony/profiler-pack": {
         "version": "v1.0.4"
     },
+    "symfony/property-access": {
+        "version": "v4.2.4"
+    },
     "symfony/routing": {
         "version": "4.2",
         "recipe": {
@@ -280,6 +298,12 @@
             "version": "4.2",
             "ref": "5374e24d508ba8fd6ba9eb15170255fdb778316a"
         }
+    },
+    "symfony/security-core": {
+        "version": "v4.2.4"
+    },
+    "symfony/security-csrf": {
+        "version": "v4.2.4"
     },
     "symfony/stopwatch": {
         "version": "v4.2.4"
@@ -296,6 +320,15 @@
             "ref": "369b5b29dc52b2c190002825ae7ec24ab6f962dd"
         }
     },
+    "symfony/validator": {
+        "version": "4.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.1",
+            "ref": "0cdc982334f45d554957a6167e030482795bf9d7"
+        }
+    },
     "symfony/var-dumper": {
         "version": "v4.2.4"
     },
@@ -309,6 +342,15 @@
             "branch": "master",
             "version": "3.3",
             "ref": "6bdfa1a95f6b2e677ab985cd1af2eae35d62e0f6"
+        }
+    },
+    "symfony/webpack-encore-bundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "5880e1fef9f9eb6a523e698a63f8feabcc8b0834"
         }
     },
     "symfony/yaml": {

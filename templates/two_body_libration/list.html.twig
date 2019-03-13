@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ThreeBodyLibration index{% endblock %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('homepage') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('three_body_libration_index') }}">Resonances</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ planet1 }}</li>
+    </ol>
+    </nav>
+{% endblock %}
+
+{% block content %}
+
+    <h1>List of resonances with {{ planet1 }}</h1>
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Resonance</th>
+                        <th class="text-right">m1</th>
+                        <th class="text-right">m</th>
+                        <th class="text-right"># of asteroids</th>
+                        <th class="text-right">Average a</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for resonance in resonances %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            <a href="{{ path('two_body_libration_show', {'planet1': planet1, 'm1': resonance.m1, 'm': resonance.m}) }}">
+                                {{ "%d%s%+d"|format(resonance.m1, planet1|first, resonance.m) }}
+                            </a>
+                        </td>
+                        <td class="text-right">{{ resonance.m1 }}</td>
+                        <td class="text-right">{{ resonance.m }}</td>
+                        <td class="text-right">{{ resonance.num }}</td>
+                        <td class="text-right">{{ "%10.5f"|format(resonance.avg_semiaxis) }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

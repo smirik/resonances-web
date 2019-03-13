@@ -3,10 +3,31 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('build/js/app.css') }}">
         {% block stylesheets %}{% endblock %}
+        {{ encore_entry_script_tags('js/app') }}
     </head>
     <body>
-        {% block body %}{% endblock %}
+
+        {% block body %}
+
+            {% include '_nav.html.twig' %}
+
+            <div class="container">
+                <hr>
+                {% block breadcrumb %}
+                {% endblock %}
+
+                {% block content %}
+                {% endblock %}
+
+                {% block footer %}
+                    {% include '_footer.html.twig' %}
+                {% endblock %}
+            </div>
+
+        {% endblock %}
+
         {% block javascripts %}{% endblock %}
     </body>
 </html>

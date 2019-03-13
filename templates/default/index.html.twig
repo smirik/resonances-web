@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Librations{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-6">
+        {% include "default/intro.html.twig" %}
+        <hr>
+        {% include 'default/_threebody_resonances_list.html.twig' %}
+        {% include 'default/_twobody_resonances_list.html.twig' %}
+        </div>
+        <div class="col">
+            <h4>Draw a chart</h4>
+            <hr>
+            {{ form_start(form, {'action': path('three_body_libration_find'), 'method': 'GET'}) }}
+            {{ form(form) }}
+        </div>
+    </div>
+
+{% endblock %}
