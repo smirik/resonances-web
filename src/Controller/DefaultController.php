@@ -15,12 +15,8 @@ class DefaultController extends AbstractController
     public function index()
     {
         $form = $this->createForm(ResonanceFinderType::class);
-
-        $planets = ['Mercury', 'Venus', 'Earthmoo', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'];
-
         return $this->render('default/index.html.twig', [
             'form' => $form->createView(),
-            'planets' => $planets,
         ]);
     }
 }

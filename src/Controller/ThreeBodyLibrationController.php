@@ -24,14 +24,7 @@ class ThreeBodyLibrationController extends AbstractController
      */
     public function index(): Response
     {
-        $repository = $threeBodyLibrations = $this->getDoctrine()->getRepository(ThreeBodyLibration::class);
-
-        $threeBodyLibrations = $repository->find100();
-        $stats = $repository->getLibrationsStats();
-
         return $this->render('three_body_libration/index.html.twig', [
-            'three_body_librations' => $threeBodyLibrations,
-            'stats' => $stats,
         ]);
     }
 
@@ -60,7 +53,7 @@ class ThreeBodyLibrationController extends AbstractController
         ;
 
         $resonances = $query->execute();
-        
+
         return $this->render('three_body_libration/list.html.twig', [
             'resonances' => $resonances,
             'planet1' => $planet1,
@@ -74,7 +67,7 @@ class ThreeBodyLibrationController extends AbstractController
     public function show($planet1, $planet2, int $m1, int $m2, int $m): Response
     {
         $repository = $this->getDoctrine()->getRepository(ThreeBodyLibration::class);
-        
+
         $query = $repository->createQueryBuilder('l')
             ->where('l.planet1 = :planet1')
             ->andWhere('l.planet2 = :planet2')
@@ -91,7 +84,7 @@ class ThreeBodyLibrationController extends AbstractController
         ;
 
         $resonances = $query->execute();
-        
+
         return $this->render('three_body_libration/show.html.twig', [
             'resonances' => $resonances,
             'planet1' => $planet1,
@@ -121,7 +114,7 @@ class ThreeBodyLibrationController extends AbstractController
             ]);
 
         }
-    
+
         return $this->render('three_body_libration/find.html.twig', [
             'form' => $form->createView(),
         ]);

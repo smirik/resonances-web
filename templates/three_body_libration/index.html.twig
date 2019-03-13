@@ -1,36 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ThreeBodyLibration index{% endblock %}
+{% block title %}Resonances with planets{% endblock %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('homepage') }}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Librations</li>
+    </ol>
+    </nav>
+{% endblock %}
 
 {% block content %}
 
-    <h1>ThreeBodyLibration index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Planet 1</th>
-                <th>Planet 2</th>
-                <th>Resonance</th>
-                <th>Num</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for elem in stats %}
-            <tr>
-                <td>{{ loop.index }}</td>
-                <td>{{ elem.planet1 }}</td>
-                <td>{{ elem.planet2 }}</td>
-                <td>{{ elem.m1 }}{{ elem.m2 }}{{ elem.m}}{{ elem.p }}</td>
-                <td>{{ elem.num }}</td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="15">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% include 'default/_threebody_resonances_list.html.twig' %}
 
 {% endblock %}

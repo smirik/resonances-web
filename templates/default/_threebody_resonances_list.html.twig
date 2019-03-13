@@ -1,0 +1,17 @@
+{% set planets = ['Mercury', 'Venus', 'Earthmoo', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'] %}
+
+<h4>Three-body resonances with planets</h4>
+<dl>
+    {% for planet1 in planets %}
+        {% if planet1 != 'Neptune' %}
+            <dt>{{ planet1 }}</dt>
+            <dd>
+            {% for planet2 in planets %}
+                {% if loop.index > loop.parent.loop.index %}
+                    <a href="{{ path('three_body_libration_list', {'planet1': planet1, 'planet2': planet2}) }}">{{ planet1 }}&nbsp;&mdash;&nbsp;{{ planet2 }}</a>{% if not loop.last %},{% endif %}
+                {% endif %}
+            {% endfor %}
+            </dd>
+        {% endif %}
+    {% endfor %}
+</dl>
