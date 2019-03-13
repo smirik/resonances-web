@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Resonance Catalog Export{% endblock %}
+
+{% block content %}
+
+    <h1>Export data</h1>
+
+    <div class="row">
+        <div class="col-6">
+            {{ form(form) }}
+        </div>
+        <div class="col">
+            In order to export fill the form and click "Export". You will immediately start downloading CSV file.
+            The file contains the following fields:
+
+            <ol>
+                <li>Asteroid number</li>
+                <li>Planet 1</li>
+                <li>Planet 2 (empty for two-body resonances)</li>
+                <li>Resonance (string representation)</li>
+                <li>Proper semi-major axis</li>
+                <li>Proper eccentricity</li>
+                <li>Proper sin of the inclination</li>
+                <li>3 columns for integers representing the resonance (2 effective for two-body resonance)</li>
+                <li>Flag <i>pure</i>: if it is equal to 1 then the resonance is pure. Else &mdash; transient (read <a href="https://www.sciencedirect.com/science/article/abs/pii/S0019103517300386?via%3Dihub">the paper</a> for the definitions).</li>
+            </ol>
+
+            <div class="alert alert-warning" role="alert">
+                Please take into account that the file can be large if you want to export all resonances for all planets or for wide range of semi-major axis.
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

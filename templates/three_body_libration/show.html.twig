@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ThreeBodyLibration index{% endblock %}
+{% block title %}{{ "%d%s%+d%s%+d"|format(m1, planet1|first, m2, planet2|first, m) }} resonance: list of the asteroids trapped in {{ "%d%s%+d%s%+d"|format(m1, planet1|first, m2, planet2|first, m) }} resonance {% endblock %}
 
 {% block breadcrumb %}
     <nav aria-label="breadcrumb">
@@ -18,7 +18,7 @@
 
 {% block content %}
 
-    <h1>List of the asteroids trapped in 
+    <h1>List of the asteroids trapped in
     {{ "%d%s%+d%s%+d"|format(m1, planet1|first, m2, planet2|first, m) }}
     resonance
     </h1>

@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\ThreeBodyLibration;
 use App\Entity\ProperElement;
-use App\Form\ThreeBodyLibrationType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -72,7 +71,7 @@ class ThreeBodyLibrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            $ae = $finder->getResonantAsteroids($data);
+            $ae = $finder->getResonantAsteroidsForChart($data);
 
             return $this->render('three_body_libration/find.html.twig', [
                 'form' => $form->createView(),

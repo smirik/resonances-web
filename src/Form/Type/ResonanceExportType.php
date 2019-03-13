@@ -14,12 +14,13 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Form\Type\PlanetChoiceType;
 
 
-class ResonanceFinderType extends AbstractType
+class ResonanceExportType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->setMethod('GET')
+            ->setAction('csv')
+            ->setMethod('POST')
             ->add('planet1', PlanetChoiceType::class, [
                 'data' => 'JUPITER',
             ])
@@ -51,17 +52,7 @@ class ResonanceFinderType extends AbstractType
                 'label' => "Max e",
                 'data' => 0.3,
             ])
-            ->add('showChart', CheckboxType::class, [
-                'label'    => 'Show chart',
-                'required' => false,
-                'data' => true,
-            ])
-            ->add('includeBackground', CheckboxType::class, [
-                'label'    => 'Include Background',
-                'required' => false,
-                'data' => false,
-            ])
-            ->add('save', SubmitType::class, ['label' => 'Plot'])
+            ->add('save', SubmitType::class, ['label' => 'Export CSV'])
         ;
     }
 
