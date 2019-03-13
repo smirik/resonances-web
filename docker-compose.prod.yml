@@ -1,0 +1,47 @@
+version: '3.2'
+
+services:
+    php:
+        image: smirik/resonances-web
+        volumes:
+            - source:/var/www/html:delegated
+        depends_on:
+            - db
+        expose:
+            - "9000"    
+        working_dir: /var/www/html    
+        entrypoint: ./config/docker/php/docker-entrypoint.sh
+        environment:
+            - COMPOSER_HOME=/var/www/html/var/composer
+            - PHP_IDE_CONFIG
+            - APP_ENV
+        networks:
+            - backend           
+    nginx:
+        image: 4xxi/nginx:flex
+        depends_on:
+            - php
+        ports:
+            - "80:80"
+        volumes:
+            - source:/var/www/html:delegated
+            - log:/var/log/nginx
+        networks:
+            - backend   
+    db:
+        image: mysql:5.5
+        volumes:
+            - db:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_USER_PASSWORD}
+            MYSQL_DATABASE: ${DB_NAME}
+        networks:
+            - backend   
+            
+volumes:
+    db:
+    log:
+    source:
+
+networks:
+    backend:
