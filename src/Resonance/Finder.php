@@ -42,17 +42,17 @@ class Finder
         /**
          * Add twobody
          */
-        $twoBodyResonances = [];
+        $twoBodyLibrations = [];
         if (0 != $data['twobody']) {
-            $twoBodyResonances = $this->twoBodyRepository->getLibrations($data);
+            $twoBodyLibrations = $this->twoBodyRepository->getLibrations($data);
         }
-        $resonances = $this->getResonancesForLibrations($librations);
-        $properElements = $this->getProperElementsForLibrations($librations);
+
+        $properElements = $this->getProperElementsForLibrations(array_merge($librations, $twoBodyLibrations));
 
         return [
-            'resonances' => $resonances,
+            'librations' => $librations,
             'properElements' => $properElements,
-            'twoBodyResonances' => $twoBodyResonances,
+            'twoBodyLibrations' => $twoBodyLibrations,
         ];
 
     }
@@ -61,7 +61,8 @@ class Finder
     {
         $tmp = $this->getResonantAsteroids($data);
 
-        $resonances = array_merge($tmp['resonances'], $tmp['twoBodyResonances']);
+        $librations = array_merge($tmp['librations'], $tmp['twoBodyLibrations']);
+        $resonances = $this->getResonancesForLibrations($librations);
         $properElements = $tmp['properElements'];
 
         $ae = [];
