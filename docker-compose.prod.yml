@@ -4,30 +4,35 @@ services:
     php:
         image: smirik/resonances-web
         volumes:
-            - source:/var/www/html:delegated
+            - log:/var/log/nginx
         depends_on:
-            - db
+            - db 
         expose:
-            - "9000"    
+            - "8080"    
         working_dir: /var/www/html    
-        entrypoint: ./config/docker/php/docker-entrypoint.sh
         environment:
-            - COMPOSER_HOME=/var/www/html/var/composer
-            - PHP_IDE_CONFIG
-            - APP_ENV
+            APP_ENV: "production"
+            WEB_PORTS: "80 443"
+            VIRTUAL_HOST: "resonances.local"
+            VIRTUAL_PORT: 8080
         networks:
             - backend           
-    nginx:
-        image: 4xxi/nginx:flex
-        depends_on:
-            - php
+    web:
+        image: jwilder/nginx-proxy
         ports:
             - "80:80"
         volumes:
-            - source:/var/www/html:delegated
-            - log:/var/log/nginx
+            - /var/run/docker.sock:/tmp/docker.sock:ro  
+        environment:
+            - DEFAULT_HOST=resonances.local 
         networks:
-            - backend   
+            - backend  
+    
+    watchtower:
+        image: v2tec/watchtower
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        command: --interval 300
     db:
         image: mysql:5.5
         volumes:
@@ -41,7 +46,6 @@ services:
 volumes:
     db:
     log:
-    source:
 
 networks:
     backend:
