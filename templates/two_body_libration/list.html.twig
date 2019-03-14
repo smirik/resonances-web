@@ -25,7 +25,7 @@
                         <th class="text-right">m1</th>
                         <th class="text-right">m</th>
                         <th class="text-right"># of asteroids</th>
-                        <th class="text-right">Average a</th>
+                        <th class="text-right d-none d-sm-table-cell ">Average a</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,7 +40,7 @@
                         <td class="text-right">{{ resonance.m1 }}</td>
                         <td class="text-right">{{ resonance.m }}</td>
                         <td class="text-right">{{ resonance.num }}</td>
-                        <td class="text-right">{{ "%10.5f"|format(resonance.avg_semiaxis) }}</td>
+                        <td class="text-right d-none d-sm-table-cell ">{{ "%10.5f"|format(resonance.avg_semiaxis) }}</td>
                     </tr>
                 {% else %}
                     <tr>

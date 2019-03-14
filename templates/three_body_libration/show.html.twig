@@ -27,7 +27,6 @@
             <table class="table table-striped">
                 <thead class="thead-dark">
                     <tr>
-                        <th>#</th>
                         <th>Number</th>
                         <th class="text-right">a</th>
                         <th class="text-right">e</th>
@@ -37,7 +36,6 @@
                 <tbody>
                 {% for resonance in resonances %}
                     <tr>
-                        <td>{{ loop.index }}
                         <td>{{ resonance.number }}</td>
                         <td class="text-right">{{ "%.8f"|format(resonance.properSemiaxis) }}</td>
                         <td class="text-right">{{ "%.8f"|format(resonance.properSemiaxis) }}</td>
