@@ -13,7 +13,7 @@ $(document).ready(function() {
             text: 'Resonances groups'
         },
         subtitle: {
-            text: 'Source: Smirnov, Markov, Popova (2017)'
+            text: 'Source: Smirnov, Dovgalev, Popova (2017)'
         },
         xAxis: {
             title: {
