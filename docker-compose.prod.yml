@@ -6,28 +6,28 @@ services:
         volumes:
             - log:/var/log/nginx
         depends_on:
-            - db 
+            - db
         expose:
-            - "8080"    
-        working_dir: /var/www/html    
+            - "8080"
+        working_dir: /var/www/html
         environment:
-            APP_ENV: "production"
+            APP_ENV: "prod"
             WEB_PORTS: "80 443"
             VIRTUAL_HOST: "resonances.local"
             VIRTUAL_PORT: 8080
         networks:
-            - backend           
+            - backend
     web:
         image: jwilder/nginx-proxy
         ports:
             - "80:80"
         volumes:
-            - /var/run/docker.sock:/tmp/docker.sock:ro  
+            - /var/run/docker.sock:/tmp/docker.sock:ro
         environment:
-            - DEFAULT_HOST=resonances.local 
+            - DEFAULT_HOST=resonances.local
         networks:
-            - backend  
-    
+            - backend
+
     watchtower:
         image: v2tec/watchtower
         volumes:
@@ -41,8 +41,8 @@ services:
             MYSQL_ROOT_PASSWORD: ${DB_USER_PASSWORD}
             MYSQL_DATABASE: ${DB_NAME}
         networks:
-            - backend   
-            
+            - backend
+
 volumes:
     db:
     log:

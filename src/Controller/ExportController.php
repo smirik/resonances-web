@@ -48,38 +48,40 @@ class ExportController extends AbstractController
 
              $csv = [];
              foreach ($res['librations'] as $libration) {
-                 $num = $libration->getNumber();
+                 $num = $libration['number'];
                  if (isset($properElements[$num])) {
+                     $s = $libration['m1'].$libration['planet1'][0].sprintf("%+d",$libration['m2']).$libration['planet2'][0].sprintf("%+d",$libration['m']);
                      $csv[] = [
                          'number' => $num,
-                         'resonance' => $libration->resonanceToString(),
-                         'planet1' => $libration->getPlanet1(),
-                         'planet2' => $libration->getPlanet2(),
-                         'semimajor_axis' => $properElements[$num]->getSemiAxis(),
-                         'eccentricity' => $properElements[$num]->getEccentricity(),
-                         'sinI' => $properElements[$num]->getSini(),
-                         'm1' => $libration->getM1(),
-                         'm2' => $libration->getM2(),
-                         'm' => $libration->getM(),
-                         'pure' => $libration->getPure(),
+                         'resonance' => $s,
+                         'planet1' => $libration['planet1'],
+                         'planet2' => $libration['planet2'],
+                         'semimajor_axis' => $properElements[$num]['semiAxis'],
+                         'eccentricity' => $properElements[$num]['eccentricity'],
+                         'sinI' => $properElements[$num]['sini'],
+                         'm1' => $libration['m1'],
+                         'm2' => $libration['m2'],
+                         'm' => $libration['m'],
+                         'pure' => $libration['pure'],
                      ];
                  }
              }
              foreach ($res['twoBodyLibrations'] as $libration) {
-                 $num = $libration->getNumber();
+                 $num = $libration['number'];
                  if (isset($properElements[$num])) {
+                     $s = $libration['m1'].$libration['planet1'][0].sprintf("%+d",$libration['m']);
                      $csv[] = [
                          'number' => $num,
-                         'resonance' => $libration->resonanceToString(),
-                         'planet1' => $libration->getPlanet1(),
+                         'resonance' => $s,
+                         'planet1' => $libration['planet1'],
                          'planet2' => '',
-                         'semimajor_axis' => $properElements[$num]->getSemiAxis(),
-                         'eccentricity' => $properElements[$num]->getEccentricity(),
-                         'sinI' => $properElements[$num]->getSini(),
-                         'm1' => $libration->getM1(),
+                         'semimajor_axis' => $properElements[$num]['semiAxis'],
+                         'eccentricity' => $properElements[$num]['eccentricity'],
+                         'sinI' => $properElements[$num]['sini'],
+                         'm1' => $libration['m1'],
                          'm2' => '',
-                         'm' => $libration->getM(),
-                         'pure' => $libration->getPure(),
+                         'm' => $libration['m'],
+                         'pure' => $libration['pure'],
                      ];
                  }
              }

@@ -1,6 +1,8 @@
 var Highcharts = require('highcharts');
 global.Highcharts = Highcharts;
 require('highcharts/modules/exporting')(Highcharts);
+require('highcharts/modules/export-data')(Highcharts);
+require('highcharts/modules/boost')(Highcharts);
 require('highcharts/highcharts-3d')(Highcharts);
 
 $(document).ready(function() {
@@ -8,6 +10,9 @@ $(document).ready(function() {
         chart: {
             type: 'scatter',
             zoomType: 'xy'
+        },
+        boost: {
+            useGPUTranslations: true
         },
         title: {
             text: 'Resonances groups'
@@ -22,7 +27,9 @@ $(document).ready(function() {
             },
             startOnTick: true,
             endOnTick: true,
-            showLastLabel: true
+            showLastLabel: true,
+            min: window.xmin,
+            max: window.xmax
         },
         yAxis: {
             title: {
