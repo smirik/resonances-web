@@ -12,6 +12,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 use App\Form\Type\ResonanceExportType;
 use App\Resonance\Finder;
 
+use Symfony\Component\HttpFoundation\StreamedResponse;
+
 /**
  * @Route("/export")
  */
@@ -82,7 +84,19 @@ class ExportController extends AbstractController
                  }
              }
 
-             $response = new Response($serializer->serialize($csv, 'csv'));
+             $response = new StreamedResponse(function () use ( &$csv) {
+                 $csvFile = fopen('php://output', 'w+');
+                 if (isset($csv[0])) {
+                     fputcsv($csvFile,array_keys($csv[0]),';');
+                     flush();
+                     foreach ($csv as $row) {
+                         fputcsv($csvFile, $row, ';');
+                         flush();
+                     }
+                 }
+                 fclose($csvFile);
+             });
+
              $response->headers->set('Content-Type', 'text/csv');
              $response->headers->set('Content-Disposition', 'attachment; filename="catalog-'.$data['planet1'].'-'.$data['planet2'].'.csv"');
 
