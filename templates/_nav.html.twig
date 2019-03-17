@@ -15,6 +15,9 @@
         <li class="nav-item {% if current_route == 'export' %}active{% endif %}">
             <a class="nav-link" href="{{ path('export')}}">Export</a>
         </li>
+        <li class="nav-item {% if current_route == 'contact' %}active{% endif %}">
+            <a class="nav-link" href="{{ path('contact')}}">Contact us</a>
+        </li>
     </ul>
     <form action="{{ path('asteroid_show') }}" method="GET" class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-1" name="asteroid" type="search" placeholder="Asteroid Number" aria-label="Search">

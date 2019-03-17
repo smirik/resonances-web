@@ -19,4 +19,14 @@ class DefaultController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/contact", name="contact")
+     */
+    public function contact()
+    {
+        return $this->render('default/contact.html.twig', [
+        ]);
+    }
+
 }

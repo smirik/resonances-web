@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}An error has occured...{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center">
+                <h1>
+                    Oops!
+                    Error...
+                </h1>
+                <p>
+                    Sorry, an error has occured! Please try again later.
+                </p>
+                <p>
+                    <a href="{{ path('homepage') }}" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
+                        Take Me Home </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
