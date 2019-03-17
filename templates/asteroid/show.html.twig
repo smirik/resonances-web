@@ -13,21 +13,26 @@
                 <th>Parameter</th>
                 <th>Value</th>
             </thead>
+            {% if properElements is defined %}
+                <tr>
+                    <td>Semi-major axis</td>
+                    <td>{{ properElements.semiAxis }}</td>
+                </tr>
+                <tr>
+                    <td>Eccentricity</td>
+                    <td>{{ properElements.eccentricity }}</td>
+                </tr>
 
-            <tr>
-                <td>Semi-major axis</td>
-                <td>{{ properElements.semiAxis }}</td>
-            </tr>
-            <tr>
-                <td>Eccentricity</td>
-                <td>{{ properElements.eccentricity }}</td>
-            </tr>
-
-            <tr>
-                <td>Sin(i)</td>
-                <td>{{ properElements.sinI }}</td>
-            </tr>
-
+                <tr>
+                    <td>Sin(i)</td>
+                    <td>{{ properElements.sinI }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">
+                        No proper elements are available for this asteroid.
+                    </td>
+            {% endif %}
         </table>
     </div>
 
