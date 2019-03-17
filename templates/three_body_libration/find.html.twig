@@ -30,6 +30,12 @@
             window.series = JSON.parse('{{ ae|raw }}');
         </script>
     {% endif %}
+    {% if xMin is defined and xMax is defined %}
+        <script>
+            window.xmin = {{ xMin }};
+            window.xmax = {{ xMax }};
+        </script>
+    {% endif %}
 
 
 {% endblock %}

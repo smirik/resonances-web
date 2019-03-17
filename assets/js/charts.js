@@ -27,7 +27,9 @@ $(document).ready(function() {
             },
             startOnTick: true,
             endOnTick: true,
-            showLastLabel: true
+            showLastLabel: true,
+            min: window.xmin,
+            max: window.xmax
         },
         yAxis: {
             title: {

@@ -37,14 +37,15 @@ class Finder
          * Only two-body
          */
         if (-1 != $data['twobody']) {
-            $librations = $this->repository->getLibrations($data);
+            $librations = $this->repository->getLibrationsAsScalarResult($data);
         }
+
         /**
          * Add twobody
          */
         $twoBodyLibrations = [];
         if (0 != $data['twobody']) {
-            $twoBodyLibrations = $this->twoBodyRepository->getLibrations($data);
+            $twoBodyLibrations = $this->twoBodyRepository->getLibrationsAsScalarResult($data);
         }
 
         $properElements = $this->getProperElementsForLibrations(array_merge($librations, $twoBodyLibrations));
@@ -85,16 +86,22 @@ class Finder
     {
         $properElementsNumbers = [];
         foreach ($librations as $libration) {
-            $properElementsNumbers[] = $libration->getNumber();
+            $properElementsNumbers[] = (int)$libration['number'];
         }
         $properElementsNumbers = array_unique($properElementsNumbers);
 
         $properElementsObjects = $this->properElementRepository
-            ->findBy(['number' => $properElementsNumbers]);
+            ->createQueryBuilder('p')
+            ->select(['p.number', 'p.semiAxis', 'p.eccentricity', 'p.sini'])
+            ->where('p.number IN (:numbers)')
+            ->setParameter('numbers', $properElementsNumbers)
+            ->getQuery()
+            ->getScalarResult()
+        ;
 
         $properElements = [];
         foreach ($properElementsObjects as $properElementObject) {
-            $properElements[$properElementObject->getNumber()] = $properElementObject;
+            $properElements[$properElementObject['number']] = $properElementObject;
         }
         return $properElements;
     }
@@ -107,11 +114,15 @@ class Finder
     {
         $resonances = [];
         foreach ($librations as $libration) {
-            $s = $libration->resonanceToString();
+            if (isset($libration['planet2'])) {
+                $s = $libration['m1'].$libration['planet1'][0].sprintf("%+d",$libration['m2']).$libration['planet2'][0].sprintf("%+d",$libration['m']);
+            } else {
+                $s = $libration['m1'].$libration['planet1'][0].sprintf("%+d",$libration['m']);
+            }
             if (!isset($resonances[$s])) {
                 $resonances[$s] = [];
             }
-            $resonances[$s][] = $libration->getNumber();
+            $resonances[$s][] = $libration['number'];
         }
         return $resonances;
     }
@@ -120,17 +131,18 @@ class Finder
     {
         $backgroundProperElements = $this->properElementRepository
             ->createQueryBuilder('p')
+            ->select(['p.semiAxis', 'p.eccentricity'])
             ->where('p.semiAxis >= :amin')
             ->andWhere('p.semiAxis <= :amax')
             ->setParameter('amin', $aMin)
             ->setParameter('amax', $aMax)
             ->getQuery()
-            ->getResult()
+            ->getScalarResult()
         ;
 
         $arr = [];
         foreach ($backgroundProperElements as $elem) {
-            $arr[] = [$elem->getSemiAxis(), $elem->getEccentricity()];
+            $arr[] = [(float)$elem['semiAxis'], (float)$elem['eccentricity']];
         }
         return $arr;
     }
@@ -151,7 +163,7 @@ class Finder
             $arr = [];
             foreach ($asteroidsInResonance as $asteroidNumber) {
                 if (isset($properElements[$asteroidNumber])) {
-                    $arr[] = [$properElements[$asteroidNumber]->getSemiAxis(), $properElements[$asteroidNumber]->getEccentricity()];
+                    $arr[] = [(float)$properElements[$asteroidNumber]['semiAxis'], (float)$properElements[$asteroidNumber]['eccentricity']];
                 }
             }
             $a = rand(0, 200);

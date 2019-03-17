@@ -70,12 +70,13 @@ class ThreeBodyLibrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-
             $ae = $finder->getResonantAsteroidsForChart($data);
 
             return $this->render('three_body_libration/find.html.twig', [
                 'form' => $form->createView(),
                 'ae' => json_encode($ae),
+                'xMin' => $data['amin'],
+                'xMax' => $data['amax'],
             ]);
 
         }
