@@ -23,7 +23,7 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_MEMORY_LIMIT -1
 RUN composer global require hirak/prestissimo --no-plugins --no-scripts
 RUN adduser -D -g 'www' www
-RUN chown -R www:www /var/lib/nginx
+RUN chown -R www:www /var/lib/nginx /var/tmp/nginx/
 # ARG HOST_UID
 
 # RUN if [ ! -z "${HOST_UID}" ]; then \
