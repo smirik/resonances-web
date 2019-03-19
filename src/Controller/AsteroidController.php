@@ -31,12 +31,6 @@ class AsteroidController extends AbstractController
             ->findBy(['number' => $id])
         ;
 
-        // dump($threeBodyLibrations);
-        // dump($twoBodyLibrations);
-        // dump($properElements);
-        // exit();
-        
-
         return $this->render('asteroid/show.html.twig', [
             'properElements' => $properElements,
             'threeBodyLibrations' => $threeBodyLibrations,
