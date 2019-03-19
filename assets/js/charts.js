@@ -42,7 +42,7 @@ $(document).ready(function() {
             verticalAlign: 'top',
             x: 100,
             y: 70,
-            floating: true,
+            floating: false,
             backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
             borderWidth: 1
         },
