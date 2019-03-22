@@ -34,17 +34,24 @@ $(document).ready(function() {
         yAxis: {
             title: {
                 text: 'Eccentricity'
-            }
+            },
+            min: window.ymin,
+            max: window.ymax,
         },
         legend: {
-            layout: 'vertical',
+            layout: 'horizontal',
             align: 'left',
-            verticalAlign: 'top',
-            x: 100,
-            y: 70,
-            floating: false,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
-            borderWidth: 1
+            maxHeight: 70
+        },
+        exporting:{
+            chartOptions:{
+                legend:{
+                    enabled: false,
+                    navigation: {
+                      enabled: false
+                    }
+                }
+            }
         },
         plotOptions: {
             scatter: {

@@ -77,6 +77,8 @@ class ThreeBodyLibrationController extends AbstractController
                 'ae' => json_encode($ae),
                 'xMin' => $data['amin'],
                 'xMax' => $data['amax'],
+                'yMin' => $data['emin'],
+                'yMax' => $data['emax'],
             ]);
 
         }
